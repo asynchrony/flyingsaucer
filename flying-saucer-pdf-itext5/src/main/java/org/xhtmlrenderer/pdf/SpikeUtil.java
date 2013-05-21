@@ -49,12 +49,14 @@ public class SpikeUtil {
 			}
 		});
 
+		final Map yDiffs = new HashMap();
 		// Move top pictures up
 		for (Iterator it = topPageBoxes.iterator(); it.hasNext();) {
 			Box box = (Box) it.next();
 			int newY = (box.getAbsY() / PAGE_HEIGHT_NO_MARGIN) * PAGE_HEIGHT_NO_MARGIN;
 			int yDiff = newY - box.getAbsY();
 			moveAll(box, yDiff);
+			yDiffs.put(box, new Integer(-yDiff));
 		}
 		// Move bottom pictures down
 		for (Iterator it = bottomPageBoxes.iterator(); it.hasNext();) {
@@ -85,11 +87,20 @@ public class SpikeUtil {
 
 			public void visitBox(Box box) {
 				int pageNum = getPage(c, box);
+				// top page images
 				Box topPageBox = findBox(c, topPageBoxes, pageNum);
-				if (boxTopOverlapsWithBox(box, topPageBox) && box != topPageBox) {
-					System.out.println("Moving text behind top pic:" + box);
-					box.setAbsY(box.getAbsY() + HALF_PAGE_IMAGE_HEIGHT);
+				Integer yDiff = (Integer) yDiffs.get(topPageBox);
+				// if we had to move the image by more than the image height, say it was a top page image
+				// at the bottom of a page, then we move the text by how much the image moved.
+				if (topPageBox != null) {
+					int amountToMoveText = Math.max(topPageBox.getHeight(), yDiff.intValue());
+					if (box != null && box.getAbsY() < topPageBox.getAbsY() + amountToMoveText
+							&& box.getAbsY() > topPageBox.getAbsY() && box != topPageBox) {
+						System.out.println("Moving text behind top pic:" + box);
+						box.setAbsY(box.getAbsY() + HALF_PAGE_IMAGE_HEIGHT);
+					}
 				}
+				// bottom page images
 				Box bottomPageBox = findBox(c, bottomPageBoxes, pageNum);
 				if (boxTopOverlapsWithBox(box, bottomPageBox) && box != bottomPageBox) {
 					Integer adjustment = (Integer) halfLineAdjustments.get(bottomPageBox);
