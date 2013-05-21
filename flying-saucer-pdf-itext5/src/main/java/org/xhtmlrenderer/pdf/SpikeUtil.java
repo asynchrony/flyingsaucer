@@ -11,6 +11,7 @@ import org.xhtmlrenderer.layout.LayoutContext;
 import org.xhtmlrenderer.render.BlockBox;
 import org.xhtmlrenderer.render.Box;
 import org.xhtmlrenderer.render.InlineLayoutBox;
+import org.xhtmlrenderer.render.LineBox;
 import org.xhtmlrenderer.render.PageBox;
 import org.xhtmlrenderer.render.RenderingContext;
 
@@ -86,6 +87,9 @@ public class SpikeUtil {
 		visitAll(rootBox, new IBoxVisitor() {
 
 			public void visitBox(Box box) {
+
+				PageBox pageBox = c.getRootLayer().getFirstPage(c, box);
+
 				int pageNum = getPage(c, box);
 				// top page images
 				Box topPageBox = findBox(c, topPageBoxes, pageNum);
@@ -96,8 +100,18 @@ public class SpikeUtil {
 					int amountToMoveText = Math.max(topPageBox.getHeight(), yDiff.intValue());
 					if (box != null && box.getAbsY() < topPageBox.getAbsY() + amountToMoveText
 							&& box.getAbsY() > topPageBox.getAbsY() && box != topPageBox) {
+
 						System.out.println("Moving text behind top pic:" + box);
 						box.setAbsY(box.getAbsY() + HALF_PAGE_IMAGE_HEIGHT);
+
+						if (box instanceof LineBox) {
+							boolean needsPageBreak = box.getAbsY() + 2 * box.getHeight() >= pageBox.getBottom()
+									- c.getExtraSpaceBottom();
+							if (needsPageBreak) {
+								System.out.println("Doing page break");
+								// TODO: Do a page break and move all the boxes below it down by that amount
+							}
+						}
 					}
 				}
 				// bottom page images
