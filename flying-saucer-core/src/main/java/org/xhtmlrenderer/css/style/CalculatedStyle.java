@@ -1033,7 +1033,7 @@ public class CalculatedStyle {
     public boolean isForcePageBreakBefore() {
         IdentValue val = getIdent(CSSName.PAGE_BREAK_BEFORE);
         return val == IdentValue.ALWAYS || val == IdentValue.LEFT
-                || val == IdentValue.RIGHT;
+                || val == IdentValue.RIGHT || val == IdentValue.ALWAYS_PREVIOUS;
     }
 
     public boolean isForcePageBreakAfter() {

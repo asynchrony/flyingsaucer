@@ -215,6 +215,8 @@ public class IdentValue implements FSDerivedValue {
     public final static IdentValue XX_LARGE = addValue("xx-large");
     public final static IdentValue XX_SMALL = addValue("xx-small");
 
+	public static final IdentValue ALWAYS_PREVIOUS = addValue("always-previous");
+
     /**
      * Description of the Field
      */

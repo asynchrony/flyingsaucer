@@ -1229,7 +1229,7 @@ public class PrimitivePropertyBuilders {
                 new IdentValue[] {
                         IdentValue.AUTO, IdentValue.ALWAYS,
                         IdentValue.AVOID, IdentValue.LEFT,
-                        IdentValue.RIGHT });
+                        IdentValue.RIGHT, IdentValue.ALWAYS_PREVIOUS });
 
         protected BitSet getAllowed() {
             return ALLOWED;
