@@ -117,6 +117,7 @@ public abstract class Box implements Styleable {
 		return getContentWidth() + getLeftMBP() + getRightMBP();
 	}
 
+	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("Box: ");
@@ -260,10 +261,12 @@ public abstract class Box implements Styleable {
 		}
 	}
 
+	@Override
 	public final CalculatedStyle getStyle() {
 		return _style;
 	}
 
+	@Override
 	public void setStyle(CalculatedStyle style) {
 		_style = style;
 	}
@@ -680,10 +683,12 @@ public abstract class Box implements Styleable {
 		return getParent() != null && getParent().isRoot();
 	}
 
+	@Override
 	public Element getElement() {
 		return _element;
 	}
 
+	@Override
 	public void setElement(Element element) {
 		_element = element;
 	}
@@ -879,6 +884,7 @@ public abstract class Box implements Styleable {
 		_index = index;
 	}
 
+	@Override
 	public String getPseudoElementOrClass() {
 		return _pseudoElementOrClass;
 	}
@@ -1099,24 +1105,56 @@ public abstract class Box implements Styleable {
 		return getWidth();
 	}
 
-	public void moveAlwaysPreviousPageBreaks(LayoutContext c) {
+	public void moveAlwaysPreviousPageBreaks(final LayoutContext c) {
 		System.out.println("Move always:" + this);
-		for (Iterator boxIterator = getChildren().iterator(); boxIterator.hasNext();) {
-			Box childBox = (Box) boxIterator.next();
-			if (childBox.getStyle().getIdent(CSSName.PAGE_BREAK_BEFORE) == IdentValue.ALWAYS_PREVIOUS) {
-				PageBox page = c.getRootLayer().getFirstPage(c, this);
+		visitAll(this, new IBoxVisitor() {
+			@Override
+			public void visitBox(Box childBox) {
+				System.out.println("Box:" + childBox + childBox.getElement());
+				if (childBox.getStyle().getIdent(CSSName.PAGE_BREAK_BEFORE) == IdentValue.ALWAYS_PREVIOUS) {
+					PageBox page = c.getRootLayer().getFirstPage(c, childBox);
 
-				int delta = page.getTop() - getAbsY();
-				setY(getY() + delta);
-				System.out.println("Moved to previous page" + childBox + ", delta = " + delta);
-				System.out.println("Parent y:" + getParent().getY());
+					int delta = page.getTop() - getAbsY();
+					childBox.setY(getY() + delta);
+					childBox.setAbsY(getAbsY() + delta);
+					System.out.println("Moved to previous page" + childBox + ", delta = " + delta);
+				}
 			}
-			if (childBox instanceof Box) {
-				Box childBlockBox = childBox;
-				childBlockBox.moveAlwaysPreviousPageBreaks(c);
-			}
-			System.out.println("Child type:" + childBox);
+		});
+	}
+
+	private static void visitAll(Box box, IBoxVisitor boxVisitor) {
+		for (int index = 0; index < box.getChildCount(); index++) {
+			Box childBox = box.getChild(index);
+			visitAll(childBox, boxVisitor);
 		}
+		if (box instanceof BlockBox) {
+			BlockBox blockBox = (BlockBox) box;
+			List listInlineContent = blockBox.getInlineContent();
+			if (listInlineContent != null) {
+				for (int index = 0; index < listInlineContent.size(); index++) {
+					Object inlineContent = listInlineContent.get(index);
+					if (inlineContent instanceof BlockBox) {
+						BlockBox childBox = (BlockBox) inlineContent;
+						visitAll(childBox, boxVisitor);
+					}
+				}
+			}
+		}
+
+		if (box instanceof InlineLayoutBox) {
+			InlineLayoutBox inlineBox = (InlineLayoutBox) box;
+			for (int index2 = 0; index2 < inlineBox.getInlineChildCount(); index2++) {
+				Object child = inlineBox.getInlineChild(index2);
+				// System.out.println("child type:" + child.getClass().getName() + child);
+				if (child instanceof InlineLayoutBox) {
+					InlineLayoutBox inlineBoxLayout = (InlineLayoutBox) child;
+					visitAll(((inlineBoxLayout)), boxVisitor);
+				}
+			}
+
+		}
+		boxVisitor.visitBox(box);
 	}
 }
 
