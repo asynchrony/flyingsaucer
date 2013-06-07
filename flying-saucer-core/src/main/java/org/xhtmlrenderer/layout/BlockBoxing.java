@@ -49,13 +49,10 @@ public class BlockBoxing {
 
 	public static void layoutContent(LayoutContext c, BlockBox block, int contentStart) {
 
-		// System.out.println("**** layoutContent begins ****");
-
 		// BWBOF CODE START
 		int pageStartIndex = -1;
 		int topPageImageIndex = -1;
 		BlockBox topPageImage = null;
-		int forTheLoveOfGodStop = 0;
 		// BWBOF CODE END
 
 		List localChildren = block.getChildren();
@@ -85,8 +82,6 @@ public class BlockBoxing {
 			BlockBox child = (BlockBox) localChildren.get(offset); // BWBOF MODIFIED
 			if (block.getElement().getNodeName() == "body") {
 				System.out.println("==========> For Loop Step, offset: " + offset);
-				// System.out.println("=============> For Loop Step, pageStartIndex: " + pageStartIndex);
-				// System.out.println("=============> For Loop Step, topPageImageIndex: " + topPageImageIndex);
 			}
 
 			RelayoutData relayoutData = null;
@@ -164,7 +159,6 @@ public class BlockBoxing {
 
 				// BWBOF CODE START
 				if (startsAtTopOfPage(c, child, childOffset)) {
-					System.out.println("Page top found!! with offset: " + offset);
 					pageStartIndex = offset;
 				}
 
@@ -181,15 +175,9 @@ public class BlockBoxing {
 				}
 
 				if (foundIt[0]) {
-					// System.out.println("Found it at offset: " + offset);
-
 					// get index of topPageImage
 					topPageImageIndex = offset;
-					System.out.println("Orginal topPageImageIndex: " + topPageImageIndex + " --- pageStartIndex: " + pageStartIndex);
 					if (topPageImageIndex != pageStartIndex && (topPageImageIndex != -1 && pageStartIndex != -1)) {
-						if (forTheLoveOfGodStop > 2) {
-							break;
-						}
 						// get last starting index of page
 						// (see line 108)
 
@@ -211,16 +199,11 @@ public class BlockBoxing {
 						childOffset = page.getTop();
 
 						// remove pageTopImageIndex, insert at pageStartIndex
-						// System.out.println("++++REMOVING IMAGE AT INDEX: " + topPageImageIndex);
 						localChildren.remove(topPageImageIndex);
 						localChildren.add(pageStartIndex, topPageImage);
 						topPageImageIndex = pageStartIndex;
-						forTheLoveOfGodStop++;
 
 						previousChildBox = (BlockBox) localChildren.get(offset - 1);
-
-						// System.out.println(child + " starts at top of page?: " + startsAtTopOfPage(c, child));
-						System.out.println("New topPageImageIndex: " + topPageImageIndex + " --- pageStartIndex: " + pageStartIndex);
 					} else {
 						previousChildBox = child;
 					}
