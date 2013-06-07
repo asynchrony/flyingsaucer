@@ -61,10 +61,10 @@ public class BlockBoxing {
 		}
 
 		String classAttribute = block.getElement().getAttribute("class");
-		if (block.getElement().getNodeName() == "body") {
-			System.out.println("block element: " + block.toString());
-			System.out.println("localChildren.size(): " + localChildren.size());
-		}
+		// if (block.getElement().getNodeName().equals("body")) {
+		// System.out.println("block element: " + block.toString());
+		// System.out.println("localChildren.size(): " + localChildren.size());
+		// }
 
 		int childOffset = block.getHeight() + contentStart;
 
@@ -80,9 +80,10 @@ public class BlockBoxing {
 
 		for (int offset = 0; offset < localChildren.size(); offset++) { // BWBOF MODIFIED
 			BlockBox child = (BlockBox) localChildren.get(offset); // BWBOF MODIFIED
-			if (block.getElement().getNodeName() == "body") {
-				System.out.println("==========> For Loop Step, offset: " + offset);
-			}
+			// if (block.getElement().getNodeName().equals("body")) {
+			// System.out.println("\n\n==========> For Loop Step, offset: " + offset);
+			// System.out.println("Child: " + child.toString());
+			// }
 
 			RelayoutData relayoutData = null;
 			boolean mayCheckKeepTogether = false;
@@ -157,13 +158,15 @@ public class BlockBoxing {
 					}
 				}
 
-				// BWBOF CODE START
-				if (startsAtTopOfPage(c, child, childOffset)) {
-					pageStartIndex = offset;
-				}
+				if (block.getElement().getNodeName().equals("body")) {
+					// BWBOF CODE START
+					// get last starting index of page
+					if (startsAtTopOfPage(c, child, childOffset)) {
+						pageStartIndex = offset;
+						// System.out.println("Setting page start index to " + offset);
+					}
 
-				final boolean foundIt[] = { false };
-				if (block.getElement().getNodeName() == "body") {
+					final boolean foundIt[] = { false };
 					visitAll(child, new IBoxVisitor() {
 						@Override
 						public void visitBox(Box box) {
@@ -172,37 +175,52 @@ public class BlockBoxing {
 							}
 						}
 					});
-				}
 
-				if (foundIt[0]) {
-					// get index of topPageImage
-					topPageImageIndex = offset;
-					if (topPageImageIndex != pageStartIndex && (topPageImageIndex != -1 && pageStartIndex != -1)) {
-						// get last starting index of page
-						// (see line 108)
+					if (foundIt[0]) {
+						// get index of topPageImage
+						topPageImageIndex = offset;
 
 						// save topPageImage object
 						topPageImage = child;
 
-						// rewind the for loop
-						while (offset >= pageStartIndex) {
-							BlockBox previousChild = (BlockBox) localChildren.get(offset); // BWBOF MODIFIED
-							relayoutData = relayoutDataList.get(offset);
-							c.restoreStateForRelayout(relayoutData.getLayoutState());
-							previousChild.reset(c);
-							// childOffset = previousChild.getY();
+						// System.out.println("pageStartIndex = " + pageStartIndex + " img index: " +
+						// topPageImageIndex);
+
+						boolean isPageBreakBefore = isPageBreakBefore((BlockBox) localChildren.get(pageStartIndex));
+						if (isPageBreakBefore) {
+							rollBackChild(c, localChildren, relayoutDataList, offset);
+
+							// remove pageTopImageIndex, insert at pageStartIndex
+							localChildren.remove(topPageImageIndex);
+							localChildren.add(++topPageImageIndex, topPageImage);
 							offset--;
+							// System.out.println("\nThing at top has pageBreakBefore: moving image down");
+
+							// reset the starting layout position to the absolute top (specifically for topPageImages)
+							PageBox page = (PageBox) c.getRootLayer().getPages().get(pageCount - 1);
+							childOffset = child.getAbsY();
+						} else if (topPageImageIndex != pageStartIndex && topPageImageIndex != -1 && pageStartIndex != -1) {
+							// perhaps last part of conditional unnecessary
+
+							// rewind the for loop
+							while (offset >= pageStartIndex) {
+								rollBackChild(c, localChildren, relayoutDataList, offset);
+								// childOffset = previousChild.getY();
+								offset--;
+							}
+							// remove pageTopImageIndex, insert at pageStartIndex
+							localChildren.remove(topPageImageIndex);
+							localChildren.add(pageStartIndex, topPageImage);
+							topPageImageIndex = pageStartIndex;
+							// System.out.println("\nMoving image to top of page");
+
+							// reset the starting layout position to the absolute top (specifically for topPageImages)
+							PageBox page = (PageBox) c.getRootLayer().getPages().get(pageCount - 1);
+							childOffset = page.getTop();
 						}
 
-						// reset the starting layout position to the absolute top (specifically for topPageImages)
-						PageBox page = (PageBox) c.getRootLayer().getPages().get(pageCount - 1);
-						childOffset = page.getTop();
-
-						// remove pageTopImageIndex, insert at pageStartIndex
-						localChildren.remove(topPageImageIndex);
-						localChildren.add(pageStartIndex, topPageImage);
-						topPageImageIndex = pageStartIndex;
-
+						// System.out.println("\nReturning to Offset = " + (offset + 1) + "\npageStartIndex = " +
+						// pageStartIndex + " New img index: " + topPageImageIndex);
 						previousChildBox = (BlockBox) localChildren.get(offset - 1);
 					} else {
 						previousChildBox = child;
@@ -214,24 +232,37 @@ public class BlockBoxing {
 		}
 	}
 
+	private static boolean isPageBreakBefore(BlockBox child) {
+		boolean isPageBreakBefore = child.getStyle().getIdent(CSSName.PAGE_BREAK_BEFORE) == IdentValue.ALWAYS
+				|| child.getStyle().getIdent(CSSName.PAGE_BREAK_BEFORE) == IdentValue.ALWAYS_PREVIOUS;
+		return isPageBreakBefore;
+	}
+
+	private static void rollBackChild(LayoutContext c, List localChildren, RelayoutDataList relayoutDataList, int offset) {
+		BlockBox previousChild = (BlockBox) localChildren.get(offset); // BWBOF MODIFIED
+		RelayoutData relayoutData = relayoutDataList.get(offset);
+		c.restoreStateForRelayout(relayoutData.getLayoutState());
+		previousChild.reset(c);
+	}
+
 	public static boolean startsAtTopOfPage(LayoutContext c, BlockBox child, int childOffset) {
 		int pageCount = c.getRootLayer().getPages().size();
 		// System.out.println("pageCount " + pageCount);
 		PageBox page = (PageBox) c.getRootLayer().getPages().get(pageCount - 1);
-		System.out.println(pageCount);
+
 		if (page == null) {
-			System.out.println("PAGE IS NULL");
+			// System.out.println("PAGE IS NULL");
 			return false;
 		} else {
 			int absPageTop = page.getTop() + c.getExtraSpaceTop();
-			int childTotalHeight = child.getAbsY() + child.getHeight();
-			System.out.println("child absY: " + child.getAbsY() + "   child y: " + child.getY() + "   child total height: "
-					+ childTotalHeight + "   child offset: " + childOffset + "   pageTop: " + absPageTop);
-			// if (child.getAbsY() == absPageTop || (child.getAbsY() < absPageTop && childTotalHeight > absPageTop)) {
-			// System.out.println("STARTS AT TOP OF PAGE");
-			// }
+			int childHeight = child.getHeight();
+			int childTop = child.getAbsY();
+			int childBottom = childTop + childHeight;
 
-			return child.getAbsY() == absPageTop || (child.getAbsY() < absPageTop && childTotalHeight > absPageTop);
+			// System.out.println("\nchild top: " + childTop + "   child bottom: " + childBottom + "   child height: " +
+			// childHeight + "   pageTop: " + absPageTop);
+
+			return childTop == absPageTop || (childTop < absPageTop && childBottom > absPageTop);
 		}
 	}
 
