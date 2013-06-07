@@ -358,10 +358,10 @@ public abstract class Box implements Styleable {
 		int initialY = getY();
 
 		CalculatedStyle style = getStyle();
-		System.out.println("Position relative");
+		// System.out.println("Position relative");
 		if (!style.isIdent(CSSName.LEFT, IdentValue.AUTO)) {
 			setX(getX() + (int) style.getFloatPropertyProportionalWidth(CSSName.LEFT, getContainingBlock().getContentWidth(), cssCtx));
-			System.out.println("Moved left");
+//			System.out.println("Moved left");
 		} else if (!style.isIdent(CSSName.RIGHT, IdentValue.AUTO)) {
 			setX(getX() - (int) style.getFloatPropertyProportionalWidth(CSSName.RIGHT, getContainingBlock().getContentWidth(), cssCtx));
 		}
