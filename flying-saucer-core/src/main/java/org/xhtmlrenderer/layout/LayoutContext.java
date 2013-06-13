@@ -89,7 +89,6 @@ public class LayoutContext implements CssContext {
 		return _sharedContext.getTextRenderer();
 	}
 
-	@Override
 	public StyleReference getCss() {
 		return _sharedContext.getCss();
 	}
@@ -292,27 +291,22 @@ public class LayoutContext implements CssContext {
 		return _sharedContext.isInteractive();
 	}
 
-	@Override
 	public float getMmPerDot() {
 		return _sharedContext.getMmPerPx();
 	}
 
-	@Override
 	public int getDotsPerPixel() {
 		return _sharedContext.getDotsPerPixel();
 	}
 
-	@Override
 	public float getFontSize2D(FontSpecification font) {
 		return _sharedContext.getFont(font).getSize2D();
 	}
 
-	@Override
 	public float getXHeight(FontSpecification parentFont) {
 		return _sharedContext.getXHeight(getFontContext(), parentFont);
 	}
 
-	@Override
 	public FSFont getFont(FontSpecification font) {
 		return _sharedContext.getFont(font);
 	}
@@ -387,7 +381,6 @@ public class LayoutContext implements CssContext {
 		return (CounterContext) _counterContextMap.get(style);
 	}
 
-	@Override
 	public FSFontMetrics getFSFontMetrics(FSFont font) {
 		return getTextRenderer().getFSFontMetrics(getFontContext(), font, "");
 	}

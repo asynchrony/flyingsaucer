@@ -117,7 +117,6 @@ public abstract class Box implements Styleable {
 		return getContentWidth() + getLeftMBP() + getRightMBP();
 	}
 
-	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append("Box: ");
@@ -261,12 +260,10 @@ public abstract class Box implements Styleable {
 		}
 	}
 
-	@Override
 	public final CalculatedStyle getStyle() {
 		return _style;
 	}
 
-	@Override
 	public void setStyle(CalculatedStyle style) {
 		_style = style;
 	}
@@ -361,7 +358,7 @@ public abstract class Box implements Styleable {
 		// System.out.println("Position relative");
 		if (!style.isIdent(CSSName.LEFT, IdentValue.AUTO)) {
 			setX(getX() + (int) style.getFloatPropertyProportionalWidth(CSSName.LEFT, getContainingBlock().getContentWidth(), cssCtx));
-//			System.out.println("Moved left");
+			// System.out.println("Moved left");
 		} else if (!style.isIdent(CSSName.RIGHT, IdentValue.AUTO)) {
 			setX(getX() - (int) style.getFloatPropertyProportionalWidth(CSSName.RIGHT, getContainingBlock().getContentWidth(), cssCtx));
 		}
@@ -683,12 +680,10 @@ public abstract class Box implements Styleable {
 		return getParent() != null && getParent().isRoot();
 	}
 
-	@Override
 	public Element getElement() {
 		return _element;
 	}
 
-	@Override
 	public void setElement(Element element) {
 		_element = element;
 	}
@@ -884,7 +879,6 @@ public abstract class Box implements Styleable {
 		_index = index;
 	}
 
-	@Override
 	public String getPseudoElementOrClass() {
 		return _pseudoElementOrClass;
 	}
@@ -1108,7 +1102,7 @@ public abstract class Box implements Styleable {
 	public void moveAlwaysPreviousPageBreaks(final LayoutContext c) {
 		System.out.println("Move always:" + this);
 		visitAll(this, new IBoxVisitor() {
-			@Override
+
 			public void visitBox(Box childBox) {
 				System.out.println("Box:" + childBox + childBox.getElement());
 				if (childBox.getStyle().getIdent(CSSName.PAGE_BREAK_BEFORE) == IdentValue.ALWAYS_PREVIOUS) {

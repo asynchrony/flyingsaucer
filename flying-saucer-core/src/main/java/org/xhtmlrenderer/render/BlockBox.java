@@ -121,7 +121,6 @@ public class BlockBox extends Box implements InlinePaintable {
 		return "";
 	}
 
-	@Override
 	public String toString() {
 		StringBuffer result = new StringBuffer();
 		String className = getClass().getName();
@@ -184,7 +183,6 @@ public class BlockBox extends Box implements InlinePaintable {
 		}
 	}
 
-	@Override
 	public String dump(LayoutContext c, String indent, int which) {
 		StringBuffer result = new StringBuffer(indent);
 
@@ -243,7 +241,6 @@ public class BlockBox extends Box implements InlinePaintable {
 		}
 	}
 
-	@Override
 	public Rectangle getPaintingClipEdge(CssContext cssCtx) {
 		Rectangle result = super.getPaintingClipEdge(cssCtx);
 
@@ -259,7 +256,6 @@ public class BlockBox extends Box implements InlinePaintable {
 		return result;
 	}
 
-	@Override
 	public void paintInline(RenderingContext c) {
 		if (!getStyle().isVisible()) {
 			return;
@@ -402,7 +398,6 @@ public class BlockBox extends Box implements InlinePaintable {
 		return _replacedElement != null;
 	}
 
-	@Override
 	public void calcCanvasLocation() {
 		if (isFloated()) {
 			FloatManager manager = _floatedBoxData.getManager();
@@ -444,7 +439,6 @@ public class BlockBox extends Box implements InlinePaintable {
 		setAbsY(manager.getMaster().getAbsY() + getY() - offset.y);
 	}
 
-	@Override
 	public void calcChildLocations() {
 		super.calcChildLocations();
 
@@ -541,7 +535,6 @@ public class BlockBox extends Box implements InlinePaintable {
 		_replacedElement = replacedElement;
 	}
 
-	@Override
 	public void reset(LayoutContext c) {
 		super.reset(c);
 		setTopMarginCalculated(false);
@@ -1706,11 +1699,10 @@ public class BlockBox extends Box implements InlinePaintable {
 		}
 	}
 
-	@Override
 	protected void calcChildPaintingInfo(final CssContext c, final PaintingInfo result, final boolean useCache) {
 		if (getPersistentBFC() != null) {
 			(this).getPersistentBFC().getFloatManager().performFloatOperation(new FloatManager.FloatOperation() {
-				@Override
+
 				public void operate(Box floater) {
 					PaintingInfo info = floater.calcPaintingInfo(c, useCache);
 					moveIfGreater(result.getOuterMarginCorner(), info.getOuterMarginCorner());
@@ -1969,7 +1961,6 @@ public class BlockBox extends Box implements InlinePaintable {
 		_fromCaptionedTable = fromTable;
 	}
 
-	@Override
 	protected boolean isInlineBlock() {
 		return isInline();
 	}
@@ -1983,7 +1974,6 @@ public class BlockBox extends Box implements InlinePaintable {
 		return flowRoot.isRoot();
 	}
 
-	@Override
 	public Box getDocumentParent() {
 		Box staticEquivalent = getStaticEquivalent();
 		if (staticEquivalent != null) {

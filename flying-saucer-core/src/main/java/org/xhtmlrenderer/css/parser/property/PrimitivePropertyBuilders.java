@@ -101,7 +101,6 @@ public class PrimitivePropertyBuilders {
 	private static abstract class SingleIdent extends AbstractPropertyBuilder {
 		protected abstract BitSet getAllowed();
 
-		@Override
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			CSSPrimitiveValue value = (CSSPrimitiveValue) values.get(0);
@@ -121,7 +120,6 @@ public class PrimitivePropertyBuilders {
 	private static class GenericColor extends AbstractPropertyBuilder {
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.TRANSPARENT });
 
-		@Override
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			CSSPrimitiveValue value = (CSSPrimitiveValue) values.get(0);
@@ -145,14 +143,14 @@ public class PrimitivePropertyBuilders {
 	}
 
 	private static class GenericBorderStyle extends SingleIdent {
-		@Override
+
 		protected BitSet getAllowed() {
 			return BORDER_STYLES;
 		}
 	}
 
 	private static class GenericBorderWidth extends AbstractPropertyBuilder {
-		@Override
+
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			PropertyValue value = (PropertyValue) values.get(0);
@@ -180,7 +178,6 @@ public class PrimitivePropertyBuilders {
 	private static abstract class LengthWithIdent extends AbstractPropertyBuilder {
 		protected abstract BitSet getAllowed();
 
-		@Override
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			PropertyValue value = (PropertyValue) values.get(0);
@@ -208,7 +205,6 @@ public class PrimitivePropertyBuilders {
 	private static abstract class LengthLikeWithIdent extends AbstractPropertyBuilder {
 		protected abstract BitSet getAllowed();
 
-		@Override
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			PropertyValue value = (PropertyValue) values.get(0);
@@ -234,7 +230,7 @@ public class PrimitivePropertyBuilders {
 	}
 
 	private static class LengthLike extends AbstractPropertyBuilder {
-		@Override
+
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			PropertyValue value = (PropertyValue) values.get(0);
@@ -257,14 +253,14 @@ public class PrimitivePropertyBuilders {
 	}
 
 	private static class NonNegativeLengthLike extends LengthLike {
-		@Override
+
 		protected boolean isNegativeValuesAllowed() {
 			return false;
 		}
 	}
 
 	private static class ColOrRowSpan extends AbstractPropertyBuilder {
-		@Override
+
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			PropertyValue value = (PropertyValue) values.get(0);
@@ -282,7 +278,7 @@ public class PrimitivePropertyBuilders {
 	}
 
 	private static class PlainInteger extends AbstractPropertyBuilder {
-		@Override
+
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			PropertyValue value = (PropertyValue) values.get(0);
@@ -305,7 +301,7 @@ public class PrimitivePropertyBuilders {
 	}
 
 	private static class Length extends AbstractPropertyBuilder {
-		@Override
+
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			PropertyValue value = (PropertyValue) values.get(0);
@@ -368,7 +364,6 @@ public class PrimitivePropertyBuilders {
 		// <length> | <percentage> | auto | inherit
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.AUTO });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -378,7 +373,6 @@ public class PrimitivePropertyBuilders {
 		// <length> | normal | inherit
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.NORMAL });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -388,7 +382,6 @@ public class PrimitivePropertyBuilders {
 		// <length> | <percentage> | none | inherit
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.NONE });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -398,7 +391,6 @@ public class PrimitivePropertyBuilders {
 		// <uri> | none | inherit
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.NONE });
 
-		@Override
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			CSSPrimitiveValue value = (CSSPrimitiveValue) values.get(0);
@@ -416,7 +408,7 @@ public class PrimitivePropertyBuilders {
 	}
 
 	public static class BackgroundAttachment extends SingleIdent {
-		@Override
+
 		protected BitSet getAllowed() {
 			return BACKGROUND_ATTACHMENTS;
 		}
@@ -431,7 +423,6 @@ public class PrimitivePropertyBuilders {
 	public static class BackgroundSize extends AbstractPropertyBuilder {
 		private static final BitSet ALL_ALLOWED = setFor(new IdentValue[] { IdentValue.AUTO, IdentValue.CONTAIN, IdentValue.COVER });
 
-		@Override
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, 2, values.size());
 
@@ -501,7 +492,7 @@ public class PrimitivePropertyBuilders {
 	}
 
 	public static class BackgroundPosition extends AbstractPropertyBuilder {
-		@Override
+
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, 2, values.size());
 
@@ -622,7 +613,7 @@ public class PrimitivePropertyBuilders {
 	}
 
 	public static class BackgroundRepeat extends SingleIdent {
-		@Override
+
 		protected BitSet getAllowed() {
 			return BACKGROUND_REPEATS;
 		}
@@ -632,7 +623,6 @@ public class PrimitivePropertyBuilders {
 		// collapse | separate | inherit
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.COLLAPSE, IdentValue.SEPARATE });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -681,7 +671,6 @@ public class PrimitivePropertyBuilders {
 		// top | bottom | inherit
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.TOP, IdentValue.BOTTOM });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -691,7 +680,6 @@ public class PrimitivePropertyBuilders {
 		// none | left | right | both | inherit
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.NONE, IdentValue.LEFT, IdentValue.RIGHT, IdentValue.BOTH });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -709,7 +697,6 @@ public class PrimitivePropertyBuilders {
 				IdentValue.SE_RESIZE, IdentValue.SW_RESIZE, IdentValue.S_RESIZE, IdentValue.W_RESIZE, IdentValue.TEXT, IdentValue.WAIT,
 				IdentValue.HELP, IdentValue.PROGRESS });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -730,7 +717,6 @@ public class PrimitivePropertyBuilders {
 				IdentValue.TABLE_FOOTER_GROUP, IdentValue.TABLE_ROW, IdentValue.TABLE_COLUMN_GROUP, IdentValue.TABLE_COLUMN,
 				IdentValue.TABLE_CELL, IdentValue.TABLE_CAPTION, IdentValue.NONE });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -740,7 +726,6 @@ public class PrimitivePropertyBuilders {
 		// show | hide | inherit
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.SHOW, IdentValue.HIDE });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -750,7 +735,6 @@ public class PrimitivePropertyBuilders {
 		// left | right | none | inherit
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.LEFT, IdentValue.RIGHT, IdentValue.NONE });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -759,7 +743,6 @@ public class PrimitivePropertyBuilders {
 	public static class FontFamily extends AbstractPropertyBuilder {
 		// [[ <family-name> | <generic-family> ] [, <family-name>| <generic-family>]* ] | inherit
 
-		@Override
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			if (values.size() == 1) {
 				CSSPrimitiveValue value = (CSSPrimitiveValue) values.get(0);
@@ -839,7 +822,6 @@ public class PrimitivePropertyBuilders {
 			ALLOWED.or(RELATIVE_FONT_SIZES);
 		}
 
-		@Override
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			PropertyValue value = (PropertyValue) values.get(0);
@@ -861,14 +843,14 @@ public class PrimitivePropertyBuilders {
 	}
 
 	public static class FontStyle extends SingleIdent {
-		@Override
+
 		protected BitSet getAllowed() {
 			return FONT_STYLES;
 		}
 	}
 
 	public static class FontVariant extends SingleIdent {
-		@Override
+
 		protected BitSet getAllowed() {
 			return FONT_VARIANTS;
 		}
@@ -876,7 +858,7 @@ public class PrimitivePropertyBuilders {
 
 	public static class FontWeight extends AbstractPropertyBuilder {
 		// normal | bold | bolder | lighter | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900 | inherit
-		@Override
+
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			PropertyValue value = (PropertyValue) values.get(0);
@@ -921,14 +903,14 @@ public class PrimitivePropertyBuilders {
 	}
 
 	public static class FSPageHeight extends LengthLikeWithAuto {
-		@Override
+
 		protected boolean isNegativeValuesAllowed() {
 			return false;
 		}
 	}
 
 	public static class FSPageWidth extends LengthLikeWithAuto {
-		@Override
+
 		protected boolean isNegativeValuesAllowed() {
 			return false;
 		}
@@ -938,14 +920,13 @@ public class PrimitivePropertyBuilders {
 		// start | auto
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.START, IdentValue.AUTO });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
 	}
 
 	public static class FSPageOrientation extends SingleIdent {
-		@Override
+
 		protected BitSet getAllowed() {
 			return PAGE_ORIENTATIONS;
 		}
@@ -955,14 +936,13 @@ public class PrimitivePropertyBuilders {
 		// auto | embed
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.AUTO, IdentValue.EMBED });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
 	}
 
 	public static class FSPDFFontEncoding extends AbstractPropertyBuilder {
-		@Override
+
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			CSSPrimitiveValue value = (CSSPrimitiveValue) values.get(0);
@@ -990,7 +970,6 @@ public class PrimitivePropertyBuilders {
 	public static class FSTablePaginate extends SingleIdent {
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.PAGINATE, IdentValue.AUTO });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -999,21 +978,20 @@ public class PrimitivePropertyBuilders {
 	public static class FSTextDecorationExtent extends SingleIdent {
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.LINE, IdentValue.BLOCK });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
 	}
 
 	public static class FSFitImagesToWidth extends LengthLikeWithAuto {
-		@Override
+
 		protected boolean isNegativeValuesAllowed() {
 			return false;
 		}
 	}
 
 	public static class Height extends LengthLikeWithAuto {
-		@Override
+
 		protected boolean isNegativeValuesAllowed() {
 			return false;
 		}
@@ -1023,7 +1001,6 @@ public class PrimitivePropertyBuilders {
 		// auto | keep
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.AUTO, IdentValue.KEEP });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -1039,7 +1016,6 @@ public class PrimitivePropertyBuilders {
 		// normal | <number> | <length> | <percentage> | inherit
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.NORMAL });
 
-		@Override
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			PropertyValue value = (PropertyValue) values.get(0);
@@ -1062,14 +1038,14 @@ public class PrimitivePropertyBuilders {
 	}
 
 	public static class ListStylePosition extends SingleIdent {
-		@Override
+
 		protected BitSet getAllowed() {
 			return LIST_STYLE_POSITIONS;
 		}
 	}
 
 	public static class ListStyleType extends SingleIdent {
-		@Override
+
 		protected BitSet getAllowed() {
 			return LIST_STYLE_TYPES;
 		}
@@ -1088,14 +1064,14 @@ public class PrimitivePropertyBuilders {
 	}
 
 	public static class MaxHeight extends LengthLikeWithNone {
-		@Override
+
 		protected boolean isNegativeValuesAllowed() {
 			return false;
 		}
 	}
 
 	public static class MaxWidth extends LengthLikeWithNone {
-		@Override
+
 		protected boolean isNegativeValuesAllowed() {
 			return false;
 		}
@@ -1108,7 +1084,7 @@ public class PrimitivePropertyBuilders {
 	}
 
 	public static class Orphans extends PlainInteger {
-		@Override
+
 		protected boolean isNegativeValuesAllowed() {
 			return false;
 		}
@@ -1121,7 +1097,6 @@ public class PrimitivePropertyBuilders {
 
 		// We only support visible or hidden for now
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -1144,14 +1119,13 @@ public class PrimitivePropertyBuilders {
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.AUTO, IdentValue.ALWAYS, IdentValue.AVOID,
 				IdentValue.LEFT, IdentValue.RIGHT, IdentValue.ALWAYS_PREVIOUS });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
 	}
 
 	public static class Page extends AbstractPropertyBuilder {
-		@Override
+
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			CSSPrimitiveValue value = (CSSPrimitiveValue) values.get(0);
@@ -1175,7 +1149,6 @@ public class PrimitivePropertyBuilders {
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.AUTO, IdentValue.ALWAYS, IdentValue.AVOID,
 				IdentValue.LEFT, IdentValue.RIGHT, IdentValue.ALWAYS_PREVIOUS });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -1185,7 +1158,6 @@ public class PrimitivePropertyBuilders {
 		// avoid | auto | inherit
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.AVOID, IdentValue.AUTO });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -1196,7 +1168,6 @@ public class PrimitivePropertyBuilders {
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.STATIC, IdentValue.RELATIVE, IdentValue.ABSOLUTE,
 				IdentValue.FIXED });
 
-		@Override
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			PropertyValue value = (PropertyValue) values.get(0);
@@ -1243,7 +1214,7 @@ public class PrimitivePropertyBuilders {
 	}
 
 	public static class TabSize extends PlainInteger {
-		@Override
+
 		protected boolean isNegativeValuesAllowed() {
 			return false;
 		}
@@ -1256,7 +1227,6 @@ public class PrimitivePropertyBuilders {
 		// auto | fixed | inherit
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.AUTO, IdentValue.FIXED });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -1267,7 +1237,6 @@ public class PrimitivePropertyBuilders {
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.LEFT, IdentValue.RIGHT, IdentValue.CENTER,
 				IdentValue.JUSTIFY });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -1283,7 +1252,6 @@ public class PrimitivePropertyBuilders {
 			return ALLOWED;
 		}
 
-		@Override
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			if (values.size() == 1) {
 				CSSPrimitiveValue value = (CSSPrimitiveValue) values.get(0);
@@ -1327,7 +1295,6 @@ public class PrimitivePropertyBuilders {
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.CAPITALIZE, IdentValue.UPPERCASE, IdentValue.LOWERCASE,
 				IdentValue.NONE });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -1339,7 +1306,6 @@ public class PrimitivePropertyBuilders {
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.BASELINE, IdentValue.SUB, IdentValue.SUPER,
 				IdentValue.TOP, IdentValue.TEXT_TOP, IdentValue.MIDDLE, IdentValue.BOTTOM, IdentValue.TEXT_BOTTOM });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -1349,7 +1315,6 @@ public class PrimitivePropertyBuilders {
 		// visible | hidden | collapse | inherit
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.VISIBLE, IdentValue.HIDDEN, IdentValue.COLLAPSE });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -1360,7 +1325,6 @@ public class PrimitivePropertyBuilders {
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.NORMAL, IdentValue.PRE, IdentValue.NOWRAP,
 				IdentValue.PRE_WRAP, IdentValue.PRE_LINE });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
@@ -1370,21 +1334,20 @@ public class PrimitivePropertyBuilders {
 		// normal | break-word
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.NORMAL, IdentValue.BREAK_WORD });
 
-		@Override
 		protected BitSet getAllowed() {
 			return ALLOWED;
 		}
 	}
 
 	public static class Widows extends PlainInteger {
-		@Override
+
 		protected boolean isNegativeValuesAllowed() {
 			return false;
 		}
 	}
 
 	public static class Width extends LengthLikeWithAuto {
-		@Override
+
 		protected boolean isNegativeValuesAllowed() {
 			return false;
 		}
@@ -1397,7 +1360,6 @@ public class PrimitivePropertyBuilders {
 		// auto | <integer> | inherit
 		private static final BitSet ALLOWED = setFor(new IdentValue[] { IdentValue.AUTO });
 
-		@Override
 		public List buildDeclarations(CSSName cssName, List values, int origin, boolean important, boolean inheritAllowed) {
 			checkValueCount(cssName, 1, values.size());
 			CSSPrimitiveValue value = (CSSPrimitiveValue) values.get(0);

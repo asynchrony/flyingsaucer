@@ -200,7 +200,7 @@ public class CalculatedStyle {
 	 * 
 	 * @return The borderWidth value
 	 */
-	@Override
+
 	public String toString() {
 		return genStyleKey();
 	}

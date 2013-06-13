@@ -220,7 +220,7 @@ public class Layer {
 	}
 
 	private static class ZIndexComparator implements Comparator {
-		@Override
+
 		public int compare(Object o1, Object o2) {
 			Layer l1 = (Layer) o1;
 			Layer l2 = (Layer) o2;
@@ -968,7 +968,7 @@ public class Layer {
 		blocks.add(block);
 
 		Collections.sort(blocks, new Comparator() {
-			@Override
+
 			public int compare(Object o1, Object o2) {
 				BlockBox b1 = (BlockBox) o1;
 				BlockBox b2 = (BlockBox) o2;
@@ -1076,7 +1076,7 @@ public class Layer {
 			List result = new ArrayList(_pageSequences);
 
 			Collections.sort(result, new Comparator() {
-				@Override
+
 				public int compare(Object o1, Object o2) {
 					BlockBox b1 = (BlockBox) o1;
 					BlockBox b2 = (BlockBox) o2;

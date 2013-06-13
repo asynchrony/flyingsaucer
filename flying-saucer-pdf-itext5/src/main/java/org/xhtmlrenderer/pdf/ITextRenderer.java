@@ -494,17 +494,15 @@ public class ITextRenderer {
 	}
 
 	private static final class NullUserInterface implements UserInterface {
-		@Override
+
 		public boolean isHover(Element e) {
 			return false;
 		}
 
-		@Override
 		public boolean isActive(Element e) {
 			return false;
 		}
 
-		@Override
 		public boolean isFocus(Element e) {
 			return false;
 		}

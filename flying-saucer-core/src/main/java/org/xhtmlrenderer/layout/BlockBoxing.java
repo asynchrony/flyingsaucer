@@ -171,7 +171,7 @@ public class BlockBoxing {
 
 					final boolean foundIt[] = { false, false };
 					visitAll(child, new IBoxVisitor() {
-						@Override
+
 						public void visitBox(Box box) {
 							if (box.getStyle().getIdent(CSSName.PAGE_BREAK_BEFORE) == IdentValue.ALWAYS_PREVIOUS) {
 								foundIt[0] = true;
@@ -193,7 +193,6 @@ public class BlockBoxing {
 
 						// System.out.println("pageStartIndex = " + pageStartIndex + " img index: " +
 						// topPageImageIndex);
-						System.out.println("hit here***********");
 
 						boolean isPageBreakBefore = isPageBreakBefore((BlockBox) localChildren.get(pageStartIndex));
 						if (isPageBreakBefore && topPageImageIndex + 1 < localChildren.size()) {
